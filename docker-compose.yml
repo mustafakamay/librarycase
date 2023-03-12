@@ -1,0 +1,32 @@
+version: '3.8'
+
+services: 
+  node_backend:
+    container_name: library_api
+    image: case_api
+    build: 
+      context: .
+    ports:
+      - "3000:3000"
+    environment: 
+      - EXTERNAL_PORT=3000
+      - PGDATABASE=library_db
+      - PGUSER=mustafa
+      - PGPASSWORD=12345
+      - PGHOST=node_db
+    depends_on: 
+      - node_db
+  node_db: 
+    container_name: node_db
+    image: "postgres:12"
+    ports:
+      - "5432:5432"
+    environment: 
+      - POSTGRES_USER=mustafa
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=library_db
+    volumes:
+      - nps_data:/var/lib/postgresql/data
+
+volumes:
+  nps_data: {}
